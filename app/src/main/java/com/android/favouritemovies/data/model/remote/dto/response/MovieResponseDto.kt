@@ -11,10 +11,10 @@ data class MovieResponseDto(
     val id: Int,
 
     @field:Json(name = "original_title")
-    val originalTitle: String,
+    val originalTitle: String?,
 
     @field:Json(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String?,
 
     @field:Json(name = "vote_average")
     val voteAverage: Double,
@@ -23,5 +23,5 @@ data class MovieResponseDto(
     val voteCount: Int,
 
     @field:Json(name = "release_date")
-    val releaseDate: String
+    val releaseDate: String?
 )

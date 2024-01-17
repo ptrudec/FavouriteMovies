@@ -1,6 +1,6 @@
 package com.android.favouritemovies.core.network
 
-import com.android.favouritemovies.core.generic.ResponseDto
+import com.android.favouritemovies.core.generic.dto.ResponseDto
 import com.android.favouritemovies.data.model.remote.dto.response.MovieResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query

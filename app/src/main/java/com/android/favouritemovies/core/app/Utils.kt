@@ -1,4 +1,4 @@
-package com.android.favouritemovies
+package com.android.favouritemovies.core.app
 
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols

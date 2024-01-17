@@ -1,4 +1,4 @@
-package com.android.favouritemovies.ui.theme
+package com.android.favouritemovies.presentation.util.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

@@ -1,4 +1,4 @@
-package com.android.favouritemovies.core.generic
+package com.android.favouritemovies.core.generic.dto
 
 import com.squareup.moshi.Json
 

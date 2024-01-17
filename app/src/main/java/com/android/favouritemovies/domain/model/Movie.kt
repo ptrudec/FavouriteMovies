@@ -1,4 +1,4 @@
-package com.android.favouritemovies.data
+package com.android.favouritemovies.domain.model
 
 /**
  * Created by petar.tomorad-rudec on 16/01/2024

@@ -9,4 +9,6 @@ object Constants {
         "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NmU1ZmY4NWRkZDVkYTU1NzQ4M2QxN2Q0N2Q1MjQ1ZSIsInN1YiI6IjY1YTY1NDQ3YzUyNWM0MDEyYmY4YzUxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mEweuYqgd4sgdrYjvJphYnccNmRgH5a9ELAv_5LolAE"
     const val MOVIE_API_TOKEN =
         "Bearer $TOKEN"
+
+    const val MAX_PAGE_SIZE = 10
 }

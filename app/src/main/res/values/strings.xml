@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FavouriteMovies</string>
+    <string name="top_rated_movies">Top rated movies</string>
+    <string name="movie_image_description">Movie poster image</string>
+    <string name="favourite_image_description">Favourite button image</string>
+    <string name="likes_image">Likes image</string>
+    <string name="calendar_image">Calendar image</string>
 </resources>

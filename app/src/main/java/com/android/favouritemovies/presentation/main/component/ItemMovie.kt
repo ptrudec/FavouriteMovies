@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,21 +36,26 @@ import com.android.favouritemovies.core.app.Constants.IMAGE_URL
 import com.android.favouritemovies.core.app.Utils
 import com.android.favouritemovies.core.app.Utils.roundToTwoDecimalPlaces
 import com.android.favouritemovies.domain.model.Movie
+import com.android.favouritemovies.presentation.main.MainViewModel
 import com.android.favouritemovies.presentation.util.theme.Orange
 import com.android.favouritemovies.presentation.util.theme.Typography
 import com.android.favouritemovies.presentation.util.theme.itemDate
 import com.android.favouritemovies.presentation.util.theme.itemTitle
 import com.android.favouritemovies.presentation.util.theme.itemVoteAverage
 import com.android.favouritemovies.presentation.util.theme.itemVoteCount
+import kotlinx.coroutines.flow.map
 
 /**
  * Created by petar.tomorad-rudec on 17/01/2024
  */
 
 @Composable
-fun ItemMovie(item: Movie) {
-    var isFavourite by remember { mutableStateOf(false) }
-    val alpha by animateFloatAsState(if (isFavourite) 1f else 0.5f, label = "")
+fun ItemMovie(item: Movie, viewModel: MainViewModel) {
+    val isFavorite by viewModel.favoriteMovies
+        .map { it.any { it.id == item.id } }
+        .collectAsState(initial = false)
+
+    val alpha by animateFloatAsState(if (isFavorite) 1f else 0.5f, label = "")
 
     Row(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.weight(1f)) {
@@ -132,7 +140,7 @@ fun ItemMovie(item: Movie) {
         Spacer(modifier = Modifier.width(12.dp))
 
         Image(
-            painter = painterResource(id = if (isFavourite) R.drawable.star_full else R.drawable.star_empty),
+            painter = painterResource(id = if (isFavorite) R.drawable.star_full else R.drawable.star_empty),
             contentDescription = stringResource(
                 id = R.string.favourite_image_description
             ),
@@ -140,7 +148,7 @@ fun ItemMovie(item: Movie) {
                 .size(24.dp, 24.dp)
                 .align(Alignment.CenterVertically)
                 .clickable {
-                    isFavourite = !isFavourite
+                    viewModel.toggleFavorite(item)
                 }
                 .alpha(alpha)
 

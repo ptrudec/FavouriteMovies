@@ -5,6 +5,7 @@ buildscript {
         okhttpVersion = '5.0.0-alpha.2'
         retrofitVersion = '2.9.0'
         pagingVersion = '3.2.1'
+        room_version = '2.6.1'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

@@ -8,6 +8,7 @@ import com.android.favouritemovies.domain.model.Movie
  */
 
 fun MovieResponseDto.mapFromEntity() = Movie(
+    id = this.id,
     originalTitle = this.originalTitle.orEmpty(),
     posterPath = this.posterPath.orEmpty(),
     releaseDate = this.releaseDate.orEmpty(),

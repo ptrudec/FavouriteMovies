@@ -11,9 +11,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
@@ -76,12 +80,16 @@ fun FavouriteMoviesTheme(viewModel: MainViewModel) {
             )
         },
     ) { innerPadding ->
-        ScrollContent(innerPadding, moviePagingItems)
+        ScrollContent(innerPadding, moviePagingItems, viewModel = viewModel)
     }
 }
 
 @Composable
-fun ScrollContent(innerPadding: PaddingValues, movies: LazyPagingItems<Movie>) {
+fun ScrollContent(
+    innerPadding: PaddingValues,
+    movies: LazyPagingItems<Movie>,
+    viewModel: MainViewModel
+) {
     LazyColumn(
         modifier = Modifier.background(BackgroundColor),
         contentPadding = PaddingValues(
@@ -94,7 +102,7 @@ fun ScrollContent(innerPadding: PaddingValues, movies: LazyPagingItems<Movie>) {
     ) {
         items(movies.itemCount) { index ->
             ItemMovie(
-                item = movies[index]!!,
+                item = movies[index]!!, viewModel
             )
         }
         movies.apply {

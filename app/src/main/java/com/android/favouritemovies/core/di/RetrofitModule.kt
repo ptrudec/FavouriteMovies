@@ -49,4 +49,9 @@ object RetrofitModule {
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()
+
+    @Singleton
+    @Provides
+    fun providesIntegrateApi(retrofit: Retrofit): MovieApi =
+        retrofit.create(MovieApi::class.java)
 }

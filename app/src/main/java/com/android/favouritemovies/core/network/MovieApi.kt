@@ -13,10 +13,10 @@ interface MovieApi {
     companion object {
         const val SERVER_URL = "https://api.themoviedb.org/3"
         const val API_URL =
-            "$SERVER_URL/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&without_genres=99,10755&vote_count.gte=200"
+            "$SERVER_URL/movie/"
     }
 
-    @GET("vote_average.desc")
+    @GET("top_rated")
     suspend fun getMovies(
         @Query("page") pageNumber: Int
     ): ResponseDto<List<MovieResponseDto>>

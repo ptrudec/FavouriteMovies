@@ -29,7 +29,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.android.favouritemovies.R
+import com.android.favouritemovies.core.app.Constants.IMAGE_URL
 import com.android.favouritemovies.core.app.Utils
+import com.android.favouritemovies.core.app.Utils.roundToTwoDecimalPlaces
 import com.android.favouritemovies.domain.model.Movie
 import com.android.favouritemovies.presentation.util.theme.Orange
 import com.android.favouritemovies.presentation.util.theme.Typography
@@ -50,7 +52,7 @@ fun ItemMovie(item: Movie) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.weight(1f)) {
             AsyncImage(
-                model = item.posterPath,
+                model = IMAGE_URL + item.posterPath,
                 contentDescription = stringResource(R.string.movie_image_description),
                 contentScale = ContentScale.FillBounds,
                 placeholder = painterResource(id = R.drawable.placeholder),
@@ -85,7 +87,7 @@ fun ItemMovie(item: Movie) {
                     Spacer(modifier = Modifier.width(4.dp))
 
                     Text(
-                        text = item.voteAverage.toString(),
+                        text = item.voteAverage.roundToTwoDecimalPlaces().toString(),
                         style = Typography.itemVoteAverage,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,

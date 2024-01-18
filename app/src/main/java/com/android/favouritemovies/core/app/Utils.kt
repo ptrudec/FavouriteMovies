@@ -1,5 +1,7 @@
 package com.android.favouritemovies.core.app
 
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.LocalDate
@@ -26,5 +28,11 @@ object Utils {
 
         val date = LocalDate.parse(inputDate, inputFormatter)
         return date.format(outputFormatter)
+    }
+
+    fun Double.roundToTwoDecimalPlaces(): Double {
+        return BigDecimal(this)
+            .setScale(2, RoundingMode.HALF_EVEN)
+            .toDouble()
     }
 }

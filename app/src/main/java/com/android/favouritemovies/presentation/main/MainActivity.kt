@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -22,6 +25,12 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,6 +66,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun FavouriteMoviesTheme(viewModel: MainViewModel) {
     val moviePagingItems: LazyPagingItems<Movie> = viewModel.moviesState.collectAsLazyPagingItems()
+    var expanded by remember { mutableStateOf(false) }
+    var selectedDropdownItem by remember { mutableIntStateOf(R.string.top_rated_movies) }
 
     Scaffold(
         topBar = {
@@ -69,17 +80,51 @@ fun FavouriteMoviesTheme(viewModel: MainViewModel) {
                 title = {
                     Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
                         Text(
-                            stringResource(R.string.top_rated_movies),
+                            stringResource(selectedDropdownItem),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.topNavigationTitle,
                             color = Color.White
                         )
                     }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        expanded = !expanded
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.List,
+                            tint = Color.White,
+                            contentDescription = stringResource(id = R.string.filter)
+                        )
+                    }
+                    if (expanded) {
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }) {
+                            DropdownMenuItem(onClick = {
+                                expanded = false
+                                viewModel.clearMovies()
+                                viewModel.getTopRatedMovies()
+                                selectedDropdownItem = R.string.top_rated_movies
+                            }) {
+                                Text(text = stringResource(id = R.string.top_rated))
+                            }
+                            DropdownMenuItem(onClick = {
+                                expanded = false
+                                viewModel.clearMovies()
+                                viewModel.getPopularMovies()
+                                selectedDropdownItem = R.string.popular_movies
+                            }) {
+                                Text(text = stringResource(id = R.string.popular))
+                            }
+                        }
+                    }
                 }
             )
         },
     ) { innerPadding ->
+
         ScrollContent(innerPadding, moviePagingItems, viewModel = viewModel)
     }
 }

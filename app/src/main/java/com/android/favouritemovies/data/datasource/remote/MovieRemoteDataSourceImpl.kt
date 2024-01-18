@@ -12,6 +12,10 @@ import javax.inject.Inject
 class MovieRemoteDataSourceImpl @Inject constructor(private val api: MovieApi) :
     MovieRemoteDataSource {
     override suspend fun getMovies(pageNumber: Int): ResponseDto<List<MovieResponseDto>> {
-        return api.getMovies(pageNumber = pageNumber)
+        return api.getTopRatedMovies(pageNumber = pageNumber)
+    }
+
+    override suspend fun getPopularMovies(pageNumber: Int): ResponseDto<List<MovieResponseDto>> {
+        return api.getPopularMovies(pageNumber = pageNumber)
     }
 }

@@ -2,8 +2,6 @@ package com.android.favouritemovies.core.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.android.favouritemovies.core.network.MovieApi
 import com.android.favouritemovies.data.datasource.local.AppDatabase
 import com.android.favouritemovies.data.datasource.local.FavoriteMoviesDao
@@ -14,7 +12,8 @@ import com.android.favouritemovies.data.repository.MovieRepositoryImpl
 import com.android.favouritemovies.domain.repository.FavoriteRepository
 import com.android.favouritemovies.domain.repository.MovieRepository
 import com.android.favouritemovies.domain.usecase.GetFavoritesUseCase
-import com.android.favouritemovies.domain.usecase.GetMoviesUseCase
+import com.android.favouritemovies.domain.usecase.GetTopRatedMoviesUseCase
+import com.android.favouritemovies.domain.usecase.GetPopularMoviesUseCase
 import com.android.favouritemovies.domain.usecase.ToggleFavoriteUseCase
 import dagger.Module
 import dagger.Provides
@@ -45,8 +44,14 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesGetMovieUseCase(movieRepository: MovieRepository): GetMoviesUseCase {
-        return GetMoviesUseCase(movieRepository)
+    fun providesGetTopRatedMovieUseCase(movieRepository: MovieRepository): GetTopRatedMoviesUseCase {
+        return GetTopRatedMoviesUseCase(movieRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun providesGetPopularMovieUseCase(movieRepository: MovieRepository): GetPopularMoviesUseCase {
+        return GetPopularMoviesUseCase(movieRepository)
     }
 
     @Singleton

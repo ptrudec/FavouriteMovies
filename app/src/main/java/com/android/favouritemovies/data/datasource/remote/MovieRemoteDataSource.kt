@@ -10,4 +10,6 @@ import com.android.favouritemovies.data.model.remote.dto.response.MovieResponseD
 interface MovieRemoteDataSource {
 
     suspend fun getMovies(pageNumber: Int): ResponseDto<List<MovieResponseDto>>
+
+    suspend fun getPopularMovies(pageNumber: Int): ResponseDto<List<MovieResponseDto>>
 }

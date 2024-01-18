@@ -17,12 +17,21 @@ import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(private val remoteDataSource: MovieRemoteDataSource) :
     MovieRepository {
-    override suspend fun getMovies(): Flow<PagingData<Movie>> {
-        return Pager(config = PagingConfig(
-            pageSize = Constants.MAX_PAGE_SIZE,
-            prefetchDistance = 2
-        ),
-            pagingSourceFactory = { MoviePagingSource(remoteDataSource) }).flow
+    private fun getMovies(fetchPopular: Boolean): Pager<Int, Movie> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = Constants.MAX_PAGE_SIZE,
+                prefetchDistance = 2
+            ),
+            pagingSourceFactory = { MoviePagingSource(remoteDataSource, fetchPopular) }
+        )
     }
 
+    override suspend fun getTopRatedMovies(): Flow<PagingData<Movie>> {
+        return getMovies(fetchPopular = false).flow
+    }
+
+    override suspend fun getPopularMovies(): Flow<PagingData<Movie>> {
+        return getMovies(fetchPopular = true).flow
+    }
 }

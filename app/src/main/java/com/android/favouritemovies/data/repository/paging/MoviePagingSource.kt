@@ -12,12 +12,18 @@ import retrofit2.HttpException
  * Created by petar.tomorad-rudec on 17/01/2024
  */
 
-class MoviePagingSource(private val remoteDataSource: MovieRemoteDataSource) :
+class MoviePagingSource(
+    private val remoteDataSource: MovieRemoteDataSource,
+    private val fetchPopular: Boolean
+) :
     PagingSource<Int, Movie>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val currentPage = params.key ?: 1
-            val movies = remoteDataSource.getMovies(pageNumber = currentPage)
+            val movies =
+                if (fetchPopular) remoteDataSource.getPopularMovies(pageNumber = currentPage) else remoteDataSource.getMovies(
+                    pageNumber = currentPage
+                )
             LoadResult.Page(
                 data = movies.results!!.mapFromListModel(),
                 prevKey = if (currentPage == 1) null else currentPage - 1,

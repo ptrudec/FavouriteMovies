@@ -11,9 +11,9 @@ import javax.inject.Inject
  * Created by petar.tomorad-rudec on 17/01/2024
  */
 
-class GetMoviesUseCase @Inject constructor(private val repository: MovieRepository) :
+class GetTopRatedMoviesUseCase @Inject constructor(private val repository: MovieRepository) :
     BaseUseCase<Unit, Flow<PagingData<Movie>>> {
     override suspend fun execute(input: Unit): Flow<PagingData<Movie>> {
-        return repository.getMovies()
+        return repository.getTopRatedMovies()
     }
 }

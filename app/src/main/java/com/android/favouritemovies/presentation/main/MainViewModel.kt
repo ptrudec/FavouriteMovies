@@ -6,7 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.android.favouritemovies.domain.model.Movie
 import com.android.favouritemovies.domain.usecase.GetFavoritesUseCase
-import com.android.favouritemovies.domain.usecase.GetMoviesUseCase
+import com.android.favouritemovies.domain.usecase.GetTopRatedMoviesUseCase
+import com.android.favouritemovies.domain.usecase.GetPopularMoviesUseCase
 import com.android.favouritemovies.domain.usecase.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +20,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getMoviesUseCase: GetMoviesUseCase,
+    private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val getFavoritesUseCase: GetFavoritesUseCase,
+    private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) :
     ViewModel() {
@@ -35,21 +37,37 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             getFavoritesMovies()
         }
+
+        getTopRatedMovies()
+    }
+
+    fun getTopRatedMovies() {
         viewModelScope.launch {
-            getMovies()
+            getTopRatedMoviesUseCase.execute(Unit)
+                .distinctUntilChanged()
+                .cachedIn(viewModelScope)
+                .collect {
+                    _moviesState.value = it
+                }
         }
     }
 
-    private suspend fun getMovies() {
-        getMoviesUseCase.execute(Unit)
-            .distinctUntilChanged()
-            .cachedIn(viewModelScope)
-            .collect {
-                _moviesState.value = it
-            }
+    fun clearMovies() {
+        moviesState.value = PagingData.empty()
     }
 
-    private suspend fun getFavoritesMovies() {
+    fun getPopularMovies() {
+        viewModelScope.launch {
+            getPopularMoviesUseCase.execute(Unit)
+                .distinctUntilChanged()
+                .cachedIn(viewModelScope)
+                .collect {
+                    _moviesState.value = it
+                }
+        }
+    }
+
+    suspend fun getFavoritesMovies() {
         getFavoritesUseCase.execute(Unit)
             .collect {
                 _favoriteMovies.value = it

@@ -17,7 +17,12 @@ interface MovieApi {
     }
 
     @GET("top_rated")
-    suspend fun getMovies(
+    suspend fun getTopRatedMovies(
+        @Query("page") pageNumber: Int
+    ): ResponseDto<List<MovieResponseDto>>
+
+    @GET("popular")
+    suspend fun getPopularMovies(
         @Query("page") pageNumber: Int
     ): ResponseDto<List<MovieResponseDto>>
 }

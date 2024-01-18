@@ -24,11 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.favouritemovies.R
 import com.android.favouritemovies.domain.model.Movie
+import com.android.favouritemovies.presentation.main.component.ErrorMessage
 import com.android.favouritemovies.presentation.main.component.ItemMovie
+import com.android.favouritemovies.presentation.main.component.LoadingNextPageItem
+import com.android.favouritemovies.presentation.main.component.LoadingPage
 import com.android.favouritemovies.presentation.util.theme.BackgroundColor
 import com.android.favouritemovies.presentation.util.theme.topNavigationTitle
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,6 +96,39 @@ fun ScrollContent(innerPadding: PaddingValues, movies: LazyPagingItems<Movie>) {
             ItemMovie(
                 item = movies[index]!!,
             )
+        }
+        movies.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    item {
+                        LoadingPage(modifier = Modifier.fillParentMaxSize())
+                    }
+                }
+
+                loadState.refresh is LoadState.Error -> {
+                    val error = movies.loadState.refresh as LoadState.Error
+                    item {
+                        ErrorMessage(
+                            modifier = Modifier.fillParentMaxSize(),
+                            message = error.error.localizedMessage!!,
+                            onClickRetry = { retry() })
+                    }
+                }
+
+                loadState.append is LoadState.Loading -> {
+                    item { LoadingNextPageItem(modifier = Modifier) }
+                }
+
+                loadState.append is LoadState.Error -> {
+                    val error = movies.loadState.append as LoadState.Error
+                    item {
+                        ErrorMessage(
+                            modifier = Modifier,
+                            message = error.error.localizedMessage!!,
+                            onClickRetry = { retry() })
+                    }
+                }
+            }
         }
     }
 }

@@ -5,4 +5,6 @@
     <string name="favourite_image_description">Favourite button image</string>
     <string name="likes_image">Likes image</string>
     <string name="calendar_image">Calendar image</string>
+    <string name="loading_data">Loading data from server</string>
+    <string name="retry">Retry</string>
 </resources>

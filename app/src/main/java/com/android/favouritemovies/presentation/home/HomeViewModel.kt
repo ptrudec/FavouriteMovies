@@ -1,4 +1,4 @@
-package com.android.favouritemovies.presentation.main
+package com.android.favouritemovies.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,8 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.android.favouritemovies.domain.model.Movie
 import com.android.favouritemovies.domain.usecase.GetFavoritesUseCase
-import com.android.favouritemovies.domain.usecase.GetTopRatedMoviesUseCase
 import com.android.favouritemovies.domain.usecase.GetPopularMoviesUseCase
+import com.android.favouritemovies.domain.usecase.GetTopRatedMoviesUseCase
 import com.android.favouritemovies.domain.usecase.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,10 +16,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Created by petar.tomorad-rudec on 17/01/2024
+ * Created by petar.tomorad-rudec on 19/01/2024
  */
+
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val getFavoritesUseCase: GetFavoritesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
@@ -67,7 +68,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    suspend fun getFavoritesMovies() {
+    private suspend fun getFavoritesMovies() {
         getFavoritesUseCase.execute(Unit)
             .collect {
                 _favoriteMovies.value = it

@@ -1,4 +1,4 @@
-package com.android.favouritemovies.presentation.main.component
+package com.android.favouritemovies.presentation.favorites.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -13,13 +13,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,11 +27,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.android.favouritemovies.R
-import com.android.favouritemovies.core.app.Constants.IMAGE_URL
+import com.android.favouritemovies.core.app.Constants
 import com.android.favouritemovies.core.app.Utils
 import com.android.favouritemovies.core.app.Utils.roundToTwoDecimalPlaces
 import com.android.favouritemovies.domain.model.Movie
-import com.android.favouritemovies.presentation.main.MainViewModel
+import com.android.favouritemovies.presentation.favorites.FavoritesViewModel
 import com.android.favouritemovies.presentation.util.theme.Orange
 import com.android.favouritemovies.presentation.util.theme.Typography
 import com.android.favouritemovies.presentation.util.theme.itemDate
@@ -46,11 +41,13 @@ import com.android.favouritemovies.presentation.util.theme.itemVoteCount
 import kotlinx.coroutines.flow.map
 
 /**
- * Created by petar.tomorad-rudec on 17/01/2024
+ * Created by petar.tomorad-rudec on 19/01/2024
  */
-
 @Composable
-fun ItemMovie(item: Movie, viewModel: MainViewModel) {
+
+fun FavoriteItemMovie(
+    item: Movie, viewModel: FavoritesViewModel
+) {
     val isFavorite by viewModel.favoriteMovies
         .map { it.any { it.id == item.id } }
         .collectAsState(initial = false)
@@ -60,7 +57,7 @@ fun ItemMovie(item: Movie, viewModel: MainViewModel) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.weight(1f)) {
             AsyncImage(
-                model = IMAGE_URL + item.posterPath,
+                model = Constants.IMAGE_URL + item.posterPath,
                 contentDescription = stringResource(R.string.movie_image_description),
                 contentScale = ContentScale.FillBounds,
                 placeholder = painterResource(id = R.drawable.placeholder),

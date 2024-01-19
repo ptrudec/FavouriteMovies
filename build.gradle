@@ -2,6 +2,7 @@ buildscript {
     ext {
         compose_ui_version = '1.5.4'
         hiltVersion = '2.46.1'
+        hiltAndroidXVersion = '1.1.0'
         okhttpVersion = '5.0.0-alpha.2'
         retrofitVersion = '2.9.0'
         pagingVersion = '3.2.1'
